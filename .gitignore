@@ -1,0 +1,21 @@
+# Entorno virtual  
+.venv/  
+
+# Variables de entorno  
+.env  
+
+# AWS Credentials  
+AWS/Credentials  
+serviceAccountKey.json
+
+# Caché de Python  
+__pycache__/  
+*.pyc  
+*.pyo  
+
+# Archivos de logs  
+*.log  
+
+# Archivos de sistema (MacOS y otros)  
+.DS_Store  
+Thumbs.db  
