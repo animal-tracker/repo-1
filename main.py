@@ -4,11 +4,11 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from datetime import datetime  # Importar datetime
 
-# Configuración del puerto serial
-SERIAL_PORT = "COM5"  # Cambiar según el sistema
+# Configuracion del puerto serial
+SERIAL_PORT = "COM5"  # Cambiar segun el sistema
 BAUD_RATE = 115200  # Debe coincidir con el ESP32
 
-# Configuración del logger
+# Configuracion del logger
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger()
 
@@ -19,7 +19,7 @@ db = firestore.client()
 
 def calcular_checksum(mensaje):
     """ Calcula el checksum sumando los valores ASCII de los caracteres. """
-    return sum(ord(c) for c in mensaje) % 256  # Simulación de un checksum simple
+    return sum(ord(c) for c in mensaje) % 256  # Simulacion de un checksum simple
 
 def guardar_en_firestore(datos_gps):
     """ Guarda o actualiza los datos GPS en Firestore. """
@@ -32,7 +32,7 @@ def guardar_en_firestore(datos_gps):
             "latitude": datos_gps["Latitud"],
             "longitude": datos_gps["Longitud"],
             "temperature": datos_gps["Temperatura"],
-            "last_update": datetime.utcnow()  # Añadir la fecha y hora actual
+            "last_update": datetime.utcnow()  # Anadir la fecha y hora actual
         }, merge=True)
 
         logger.info("Datos guardados o actualizados en Firestore: %s", datos_gps)
@@ -67,7 +67,7 @@ try:
                 mensaje_sin_checksum = "|".join(partes[:-1])  # Mensaje sin el checksum
                 checksum_calculado = calcular_checksum(mensaje_sin_checksum)
             except ValueError:
-                logger.warning("Checksum no válido, descartando...")
+                logger.warning("Checksum no valido, descartando...")
                 continue  
 
             # Validar checksum
@@ -89,7 +89,7 @@ try:
             # Guardar o actualizar los datos en Firestore
             guardar_en_firestore(datos_gps)
 
-            # Enviar confirmación
+            # Enviar confirmacion
             respuesta = f"GTRC|{device_id}|OK\n"
             ser.write(respuesta.encode("utf-8"))
             logger.info("Respuesta enviada: %s", respuesta.strip())
@@ -98,5 +98,5 @@ except serial.SerialException as e:
     logger.error("Error al abrir el puerto serial: %s", e)
 
 except KeyboardInterrupt:
-    logger.info("Cerrando conexión...")
+    logger.info("Cerrando conexion...")
     ser.close()
